@@ -154,12 +154,12 @@ def main():
         #f.write('proxy = [\r\n'+ipText+']')
         #f.close()
         f1.close()
-    if proxy_type == 'socks5':
-        f = open('ip_f_socks5.json','w') #改成你要存储的位置
-    else:
-        f = open('ip_f.json','w')
-    json.dump(proxyOut,f)
-    f.close()
+        if proxy_type == 'socks5':
+            f = open('ip_f_socks5.json','w') #改成你要存储的位置
+        else:
+            f = open('ip_f.json','w')
+        json.dump(proxyOut,f)
+        f.close()
     
     print("final: ",proxy_len," proxies")
     print(proxyOut)
