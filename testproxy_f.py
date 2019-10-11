@@ -78,10 +78,14 @@ def main():
     if len(sys.argv)>1:
         proxy_type = sys.argv[1]
     print('proxy type: '+ proxy_type)
-    if proxy_type == 'socks5':
-        fr = open('dproxylist_socks5.json','r')
+    if len(sys.argv)>2:
+        fname = sys.argv[2]
+        fr = open(fname,'r')
     else:
-        fr = open('dproxylist.json','r',encoding='utf-8')
+        if proxy_type == 'socks5':
+            fr = open('dproxylist_socks5.json','r')
+        else:
+            fr = open('dproxylist.json','r',encoding='utf-8')
 
     #初始化代理数组
     jdatas = json.load(fr)
