@@ -23,12 +23,24 @@ def downloadProxylist():
     f.write('[')
     for line in range(0,len(b)-1):
         c = b[line].split(':')
-        str1 = '{"type":"socks5",'+'"host":'+'"'+c[0]+'",'+'"port":'+c[1]+',"country":'+ '"'+str(geoipReader.city(c[0]).country.iso_code)+'"'
+        str1 = '{"type":"socks5",'+'"host":'+'"'+c[0]+'",'+'"port":'+str(c[1])+',"country":'+ '"'+str(geoipReader.city(c[0]).country.iso_code)+'"'
         f.write( str1 +'},\n')
     c = b[len(b)-1].split(':')
-    str2 = '{"type":"socks5",'+'"host":'+'"'+c[0]+'",'+'"port":'+c[1]+',"country":'+ '"'+str(geoipReader.city(c[0]).country.iso_code)+'"'
+    str2 = '{"type":"socks5",'+'"host":'+'"'+c[0]+'",'+'"port":'+str(c[1])+',"country":'+ '"'+str(geoipReader.city(c[0]).country.iso_code)+'"'
     f.write( str2 + '}]')
     f.close()
+    
+    '''
+    #用json.dump()方法,文件不会换行
+    f = open('dproxylist_socks5.json','w')
+    tempda= []
+    for item in b:
+        c = item.split(':')
+        str3 = {"type":"socks5","host":c[0],"port":str(c[1]),"country":+str(geoipReader.city(c[0]).country.iso_code)}
+        tempda.append(str3)
+    json.dump(tempda,f)
+    f.close()
+    '''
 
     print('downloading http proxylist...')
     r = requests.get('https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list')
