@@ -73,8 +73,8 @@ def downloadProxylist():
     null = 'null'
     for item in data:
         a = eval(item)
-        if a['country'] == null:
-            a['country'] = geoipReader.city(a['host']).country.iso_code
+        #if a['country'] == null:
+        #    a['country'] = geoipReader.city(a['host']).country.iso_code
         del a['from']
         outlist.append(a)
     f = open('dproxylist.json','w')
