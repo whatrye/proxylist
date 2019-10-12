@@ -55,7 +55,7 @@ def downloadProxylist():
 
     #保存为json
     #js = json.dumps(data)
-
+    '''
     lendata= len(data)
     f = open('dproxylist.json','w')
     f.write('[')
@@ -67,11 +67,20 @@ def downloadProxylist():
     #f.write(js)
     f.write(']')
     f.close()
-
     '''
-    for i in range(0,len(data)-1):
-        if data[i]:
-            del data[i]['from']
+
+    outlist = []
+    null = 'null'
+    for item in data:
+        a = eval(item)
+        if a['country'] == null:
+            a['country'] = geoipReader.city(a['host']).country.iso_code
+        del a['from']
+        outlist.append(a)
+    f = open('dproxylist.json','w')
+    json.dump(outlist,f,ensure_ascii=False)
+    f.close()
+
     '''
     #二次处理输出文件
     f = open('dproxylist.json','r')
@@ -82,7 +91,7 @@ def downloadProxylist():
     f = open('dproxylist.json','w')
     json.dump(data,f,ensure_ascii=False)
     f.close()
-    
+    '''
 
     return data
 
