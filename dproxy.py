@@ -20,6 +20,7 @@ def downloadProxylist():
 
     geoipReader = geoip2.database.Reader('GeoLite2-City.mmdb')
     f = open('dproxylist_socks5.json','w')
+    str1 = {}
     f.write('[')
     for line in range(0,len(b)-1):
         c = b[line].split(':')
@@ -29,16 +30,18 @@ def downloadProxylist():
     str2 = '{"type":"socks5",'+'"host":'+'"'+c[0]+'",'+'"port":'+str(c[1])+',"country":'+ '"'+str(geoipReader.city(c[0]).country.iso_code)+'"'
     f.write( str2 + '}]')
     f.close()
-    
     '''
-    #用json.dump()方法,文件不会换行
     f = open('dproxylist_socks5.json','w')
-    tempda= []
-    for item in b:
-        c = item.split(':')
-        str3 = {"type":"socks5","host":c[0],"port":str(c[1]),"country":+str(geoipReader.city(c[0]).country.iso_code)}
-        tempda.append(str3)
-    json.dump(tempda,f)
+    outlist = []
+    str1 = {}
+    for line in range(0,len(b)-1):
+        c = b[line].split(':')
+        str1['type'] = 'socks5'
+        str1['host'] = c[0]
+        str1['port'] = c[1]
+        str1['country'] = geoipReader.city(c[0]).country.iso_code
+        outlist.append(str1)
+    json.dump(outlist,f)
     f.close()
     '''
 
@@ -49,21 +52,28 @@ def downloadProxylist():
     f.close()
     data = r.text.split("\n")
     data = list(filter(None,data))
-    
+
     #保存为json
     #js = json.dumps(data)
     lendata= len(data)
     f = open('dproxylist.json','w')
     f.write('[')
-    for da in range(0,len(data)-1):
-        if data[da]:
-            f.write(data[da] + ',\n')
+    for i in range(0,len(data)-1):
+        if data[i]:
+            f.write(data[i] + ',\n')
     f.write(data[lendata-1])
     #json.dump(data,f,ensure_ascii=False)
     #f.write(js)
     f.write(']')
     f.close()
-    
+    '''
+    f = open('dproxylist.json','w')
+    for i in range(0,len(data)-1):
+        if data[i]:
+            del data[i]['from']
+    json.dump(data,f,ensure_ascii=False)
+    f.close()
+    '''
     return data
 
 #验证
@@ -75,7 +85,7 @@ def testIP(proxyQueue):
             j = proxyQueue.qsize()
         except Exception as e:
             break
-        
+
         try:
             proxy1 = {"http":proxy['host'] + ':' + str(proxy['port'])}
             r = requests.get(testurl, headers = headers, proxies = proxy1, timeout = 10)

@@ -12,11 +12,17 @@ def converttxt_js(infile):
     data = []
     line = []
     line = fr.readlines()
+    str3 = {}
     #f.write('[')
     for item in line:
         c = item.strip().split(':')
         #str1 = '{"type":"http",'+'"host":'+'"'+c[0]+'",'+'"port":'+c[1]+',"country":'+ '"'+str(geoipReader.city(c[0]).country.iso_code)+'"'
-        str3 = {"type":"http","host":c[0],"port":c[1],"country":str(geoipReader.city(c[0]).country.iso_code)}
+        #str3 = {"type":"http","host":c[0],"port":c[1],"country":str(geoipReader.city(c[0]).country.iso_code)}
+        str3['type'] = 'http'
+        str3['host'] = c[0]
+        str3['port'] = c[1]
+        str3['country'] = geoipReader.city(c[0]).country.iso_code
+
         data.append(str3)
         #f.write(str1+'},\n')
         #line = fr.readline()
