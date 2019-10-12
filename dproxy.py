@@ -55,7 +55,7 @@ def downloadProxylist():
 
     #保存为json
     #js = json.dumps(data)
-    
+
     lendata= len(data)
     f = open('dproxylist.json','w')
     f.write('[')
@@ -67,17 +67,22 @@ def downloadProxylist():
     #f.write(js)
     f.write(']')
     f.close()
-    
+
     '''
     for i in range(0,len(data)-1):
         if data[i]:
             del data[i]['from']
-    #for item in data:
-    #    del item['from']
+    '''
+    #二次处理输出文件
+    f = open('dproxylist.json','r')
+    data = json.load(f)
+    f.close()
+    for item in data:
+        del item['from']
     f = open('dproxylist.json','w')
     json.dump(data,f,ensure_ascii=False)
     f.close()
-    '''
+    
 
     return data
 
