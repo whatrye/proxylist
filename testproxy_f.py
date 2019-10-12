@@ -6,6 +6,7 @@ import json
 import threading
 import queue,re,sys
 
+
 '''
 #命令行选项输入方法1
 import argparse
@@ -38,7 +39,6 @@ import argparse
 ##help: 使用的帮助提示信息
 ##dest: 参数在程序中的对应的变量名称，如：add_argument("-a", dest="code_name")，在脚本中用parser.code_name来访问该命令行选项的值
 
-
 parser = argparse.ArgumentParser(usage='usage tip',description='help info.') #创建解析对象
 parser.add_argument('--address',default='2.3.4.5',help='ip address',dest='host') #向该对象中添加使用到的命令行选项和参数
 parser.add_argument('--flag',choices=['full','half','none'],default='half',help='empty?')
@@ -49,7 +49,8 @@ print("--address {0}".format(args.host))
 print('--flag {0}'.format(args.flag))
 print('--port {0}'.format(args.port))
 print('-l {0}'.format(args.log))
-
+'''
+'''
 #命令行选项输入方法2
 import getopt
 ##    options, args = getopt.getopt(args, shortopts, longopts=[])
@@ -145,6 +146,22 @@ def testIP(proxyQueue):
 #主程序
 def main():
     global proxy_type,proxyOut
+    import argparse
+    parser = argparse.ArgumentParser(usage='testproxy -t h -i inputfile -o outputfile',description='test proxy.') #创建解析对象
+    parser.add_argument('-t','--type',choices=['h','s5'],default='h',dest='proxy_type',help='proxy type: h-http,s-socks5.')
+    parser.add_argument('-i','--inputfile',default='dproxylist.json',dest='inputfile',help='json inputfile name.')
+    parser.add_argument('-o','--outputfile',default='ip_f.json',dest='outputfile',help='json outputfile name.')
+    args = parser.parse_args() #解析命令行
+
+    if args.proxy_type == 'h':
+        proxy_type = 'http'
+    elif args.proxy_type == 's5':
+        proxy_type = 'socks5'
+    infilename = args.inputfile
+    outfilename = args.outputfile
+    print(proxy_type,infilename)
+    fr = open(infilename,'r')
+    '''
     #处理代理文件
     if len(sys.argv)>1:
         proxy_type = sys.argv[1]
@@ -157,7 +174,7 @@ def main():
             fr = open('dproxylist_socks5.json','r')
         else:
             fr = open('dproxylist.json','r',encoding='utf-8')
-
+    '''
     #初始化代理数组
     jdatas = json.load(fr)
     #print(jdatas)
@@ -230,11 +247,11 @@ def main():
         #f.close()
         f1.close()
         if proxy_type == 'socks5':
-            f = open('ip_f_socks5.json','w') #改成你要存储的位置
+            fo = open('ip_f_socks5.json','w') #改成你要存储的位置
         else:
-            f = open('ip_f.json','w')
-        json.dump(proxyOut,f)
-        f.close()
+            fo = open('ip_f.json','w')
+        json.dump(proxyOut,fo)
+        fo.close()
 
     print("final: ",proxy_len," proxies")
     print(proxyOut)

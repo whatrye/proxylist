@@ -19,6 +19,7 @@ def downloadProxylist():
     f.close()
 
     geoipReader = geoip2.database.Reader('GeoLite2-City.mmdb')
+    '''
     f = open('dproxylist_socks5.json','w')
     str1 = {}
     f.write('[')
@@ -43,7 +44,6 @@ def downloadProxylist():
         outlist.append(str1)
     json.dump(outlist,f)
     f.close()
-    '''
 
     print('downloading http proxylist...')
     r = requests.get('https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list')
@@ -55,6 +55,7 @@ def downloadProxylist():
 
     #保存为json
     #js = json.dumps(data)
+    
     lendata= len(data)
     f = open('dproxylist.json','w')
     f.write('[')
@@ -66,14 +67,18 @@ def downloadProxylist():
     #f.write(js)
     f.write(']')
     f.close()
+    
     '''
-    f = open('dproxylist.json','w')
     for i in range(0,len(data)-1):
         if data[i]:
             del data[i]['from']
+    #for item in data:
+    #    del item['from']
+    f = open('dproxylist.json','w')
     json.dump(data,f,ensure_ascii=False)
     f.close()
     '''
+
     return data
 
 #验证
