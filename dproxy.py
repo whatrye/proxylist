@@ -14,7 +14,7 @@ def downloadProxylist():
     r1 = requests.get('https://raw.githubusercontent.com/hookzof/socks5_list/master/proxy.txt')
     b = r1.text.split()
     f = open('dproxylist_socks5.txt','w')
-    for line in range(0,len(b)):
+    for line in range(0,len(b)-1):
         f.write(b[line]+'\n')
     f.close()
 
@@ -32,7 +32,6 @@ def downloadProxylist():
     f.write( str2 + '}]')
     f.close()
     '''
-    f = open('dproxylist_socks5.json','w')
     outlist = []
     str1 = {}
     for line in range(0,len(b)-1):
@@ -41,7 +40,10 @@ def downloadProxylist():
         str1['host'] = c[0]
         str1['port'] = c[1]
         str1['country'] = geoipReader.city(c[0]).country.iso_code
-        outlist.append(str1)
+        outlist.append(eval(str(str1)))  #why ? eval(str(str1)),if append(str1) outlist all data would be last record .
+        #print(str1)
+    #print(outlist)
+    f = open('dproxylist_socks5.json','w')
     json.dump(outlist,f)
     f.close()
 
