@@ -151,15 +151,17 @@ def main():
     parser.add_argument('-t','--type',choices=['h','s5'],default='h',dest='proxy_type',help='proxy type: h-http,s-socks5.')
     parser.add_argument('-i','--inputfile',default='dproxylist.json',dest='inputfile',help='json inputfile name.')
     parser.add_argument('-o','--outputfile',default='ip_f.json',dest='outputfile',help='json outputfile name.')
+    parser.add_argument('-u','--url',default='http://kali.org/',dest='testurl',help='test url.')
     args = parser.parse_args() #解析命令行
 
+    testurl = args.testurl
     if args.proxy_type == 'h':
         proxy_type = 'http'
     elif args.proxy_type == 's5':
         proxy_type = 'socks5'
     infilename = args.inputfile
     outfilename = args.outputfile
-    print(proxy_type,infilename)
+    print(proxy_type,infilename,testurl)
     fr = open(infilename,'r')
     '''
     #处理代理文件
@@ -253,7 +255,7 @@ def main():
         json.dump(proxyOut,fo)
         fo.close()
 
-    print("final: ",proxy_len," proxies")
     print(proxyOut)
+    print("final: ",proxy_len," proxies")
 
 main()
