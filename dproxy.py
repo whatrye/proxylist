@@ -39,7 +39,10 @@ def downloadProxylist():
         str1['type'] = 'socks5'
         str1['host'] = c[0]
         str1['port'] = c[1]
-        str1['country'] = geoipReader.city(c[0]).country.iso_code
+        try:
+            str1['country'] = geoipReader.city(c[0]).country.iso_code
+        except Exception as e:
+            str1['country'] = 'null'
         outlist.append(eval(str(str1)))  #why ? eval(str(str1)),if append(str1) outlist all data would be last record .
         #print(str1)
     #print(outlist)
