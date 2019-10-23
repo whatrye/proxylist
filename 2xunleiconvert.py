@@ -30,4 +30,4 @@ def thunder2Real(url):
 
 if __name__ == '__main__':
     url = 'thunder://QUFodHRwOi8veDEwMi51dW5pYW8uY29tOjEwMS9kYXRhL2Jicy51dW5pYW8uY29tJUU2JTgyJUEwJUU2JTgyJUEwJUU5JUI4JTlGLyVFNyU5QiU5NyVFNiVBMiVBNiVFNyVBOSVCQSVFOSU5NyVCNC0lRTYlODIlQTAlRTYlODIlQTAlRTklQjglOUYlRTQlQjglQUQlRTYlOTYlODclRTUlQUQlOTclRTUlQjklOTUucm12Ylpa'
-    print(thunder2Real(url))
+    print(thunder2Real(sys.argv[1]))
