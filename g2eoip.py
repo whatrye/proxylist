@@ -1,4 +1,4 @@
-#! python3
+#!python3
 import geoip2.database
 import sys
 # This creates a Reader object. You should use the same object

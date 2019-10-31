@@ -1,4 +1,4 @@
-#! python3
+#!python3
 # -*- coding: UTF-8 -*-
 
 import json

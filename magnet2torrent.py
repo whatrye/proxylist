@@ -1,4 +1,4 @@
-#! python2
+#!python2
 import shutil
 import tempfile
 import os.path as pt

@@ -1,4 +1,4 @@
-#! python2
+#!python2
 import bencode, hashlib, base64, urllib
 torrent = open('ubuntu-12.04.2-server-amd64.iso.torrent', 'rb').read()
 metadata = bencode.bdecode(torrent)
