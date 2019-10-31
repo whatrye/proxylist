@@ -1,0 +1,4 @@
+requests[socks]
+geoip2
+argparse
+bencode_py3
