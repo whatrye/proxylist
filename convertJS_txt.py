@@ -8,9 +8,13 @@ import queue,re,sys
 
 def convertJS_txt(infile):
     fr = open(infile,'r')
-    f = open('bbb.txt','w')
     jsdata = json.load(fr)
+    fr.close()
+    f = open('bbb.txt','w')
     for item in jsdata:
         f.write(item['host']+':'+str(item['port'])+'\n')
+    f.close()
 
-convertJS_txt(sys.argv[1])
+if __name__ == '__main__':
+    #print(__name__)
+    convertJS_txt(sys.argv[1])

@@ -5,15 +5,15 @@ import json
 import sys
 import geoip2.database
 
-def converttxt_js(infile):
+def converttxt_js(lines):
     geoipReader = geoip2.database.Reader('GeoLite2-City.mmdb')
     data = []
-    line = []
-    fr = open(infile,'r')
-    line = fr.readlines()
-    fr.close()
+    #line = []
+    #fr = open(infile,'r')
+    #line = fr.readlines()
+    #fr.close()
     #f.write('[')
-    for item in line:
+    for item in lines:
         c = item.strip().split(':')
         if len(c[0]) < 5:
             continue
@@ -30,8 +30,19 @@ def converttxt_js(infile):
         #line = fr.readline()
     #str2 = '{"type":"http",'+'"host":'+'"'+c[0]+'",'+'"port":'+c[1]+',"country":'+ '"'+str(geoipReader.city(c[0]).country.iso_code)+'"'
     #f.write( str2 + '}]')
-    f = open('bbb.json','w')
-    json.dump(data,f)
-    f.close()
+    #f = open('bbb.json','w')
+    #json.dump(data,f)
+    #f.close()
+    return data
 
-converttxt_js(sys.argv[1])
+if __name__ == '__main__':
+    #print(__name__)
+    line = []
+    fr = open(sys.argv[1],'r')
+    lines = fr.readlines()
+    fr.close()
+    datas = converttxt_js(lines)
+    f = open('bbb.json','w')
+    json.dump(datas,f)
+    f.close()
+    print('total %s% converted',len(datas))

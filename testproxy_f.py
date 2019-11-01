@@ -96,14 +96,15 @@ def downloadProxylist():
 ipText = ''
 proxys = []
 proxyQueue = queue.Queue()
-proxyOut = []
+proxyOutHttp = []
+proxyOutSocks = []
 proxy_type = 'http'
 testurl = 'http://kali.org/'
 threadNum = 200
 
 #验证
 def testIP(proxyQueue):
-    global proxy_type,testurl,proxyOut
+    global proxy_type,testurl,proxyOutHttp,proxyOutSocks
 
     headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'}
     while True:
@@ -138,14 +139,17 @@ def testIP(proxyQueue):
             '''
 
             if r.status_code == 200:
-                proxyOut.append(proxy)
+                if proxy['type'] == "socks5":
+                    proxyOutSocks.append(proxy)
+                else:
+                    proxyOutHttp.append(proxy)
         except Exception as e:
             print(proxy['host'] +':'+str(proxy['port'])+ ' - error' + "\r\n")
             #print(proxy['http'] , e , "\r\n")
 
 #主程序
 def main():
-    global proxy_type,proxyOut
+    global proxy_type,proxyOutHttp,proxyOutSocks
     import argparse
     parser = argparse.ArgumentParser(usage='testproxy -t h -i inputfile -o outputfile',description='test proxy.') #创建解析对象
     parser.add_argument('-t','--type',choices=['h','s5'],default='h',dest='proxy_type',help='proxy type: h-http,s-socks5.')
@@ -223,39 +227,68 @@ def main():
     #输出文件json和txt
 
     #proxyOut.sort()
-    proxyOut = list(filter(None,proxyOut))
-    proxy_len=len(proxyOut)
-    print(proxy_len)
-    if proxy_len > 0:
-        if proxy_type == 'socks5':
-            #f = open('ip_f_socks5.json','w') #改成你要存储的位置
-            f1 = open('ip_f_socks5.txt','w')
-        else:
-            #f = open('ip_f.json','w')
-            f1 = open('ip_f.txt','w')
-        #f.write('[')
-        for i in range(0,proxy_len-1):
-            if proxyOut[i]:
-                #f.write(str(proxyOut[i]))
-                #f.write(',\n')
-                f1.write(proxyOut[i]['host']+':'+str(proxyOut[i]['port'])+'\n')
-        #f.write(str(proxyOut[proxy_len-1]))
-        #f.write(']')
-        f1.write(proxyOut[i]['host']+':'+str(proxyOut[i]['port']))
-
-        #for i in range(0,len(proxyOut)):
-        #    f.write(proxyOut[i])
-        #f.write('proxy = [\r\n'+ipText+']')
-        #f.close()
+    proxyOutHttp = list(filter(None,proxyOutHttp))
+    proxyOutSocks = list(filter(None,proxyOutSocks))
+    proxyH_len = len(proxyOutHttp)
+    proxyS_len = len(proxyOutSocks)
+    print(proxyH_len)
+    #输出Http代理
+    if proxyH_len > 0:
+        f1 = open('ip_http.txt','w')
+        for i in range(0,proxyH_len-1):
+            if proxyOutHttp[i]:
+                f1.write(proxyOutHttp[i]['host']+':'+str(proxyOutHttp[i]['port'])+'\n')
+        f1.write(proxyOutHttp[i]['host']+':'+str(proxyOutHttp[i]['port']))
         f1.close()
-        if proxy_type == 'socks5':
-            fo = open('ip_f_socks5.json','w') #改成你要存储的位置
-        else:
-            fo = open('ip_f.json','w')
-        json.dump(proxyOut,fo)
+        fo = open('ip_Http.json','w')
+        json.dump(proxyOutHttp,fo)
         fo.close()
 
-    print(proxyOut)
-    print("final: ",proxy_len," proxies")
+    #输出Socks5代理
+    if proxyS_len > 0:
+        f1 = open('ip_socks5.txt','w')
+        for i in range(0,proxyS_len-1):
+            if proxyOutSocks[i]:
+                f1.write(proxyOutSocks[i]['host']+':'+str(proxyOutSocks[i]['port'])+'\n')
+        f1.write(proxyOutSocks[i]['host']+':'+str(proxyOutSocks[i]['port']))
+        f1.close()
+        fo = open('ip_socks5.json','w')
+        json.dump(proxyOutSocks,fo)
+        fo.close()
+        
+        
+##        if proxy_type == 'socks5':
+##            #f = open('ip_f_socks5.json','w') #改成你要存储的位置
+##            f1 = open('ip_f_socks5.txt','w')
+##        else:
+##            #f = open('ip_f.json','w')
+##            f1 = open('ip_f.txt','w')
+##        #f.write('[')
+##        for i in range(0,proxyH_len-1):
+##            if proxyOut[i]:
+##                #f.write(str(proxyOut[i]))
+##                #f.write(',\n')
+##                f1.write(proxyOut[i]['host']+':'+str(proxyOut[i]['port'])+'\n')
+##        #f.write(str(proxyOut[proxy_len-1]))
+##        #f.write(']')
+##        f1.write(proxyOut[i]['host']+':'+str(proxyOut[i]['port']))
+##
+##        #for i in range(0,len(proxyOut)):
+##        #    f.write(proxyOut[i])
+##        #f.write('proxy = [\r\n'+ipText+']')
+##        #f.close()
+##        f1.close()
+##        if proxy_type == 'socks5':
+##            fo = open('ip_f_socks5.json','w') #改成你要存储的位置
+##        else:
+##            fo = open('ip_f.json','w')
+##        json.dump(proxyOut,fo)
+##        fo.close()
+
+    print(proxyOutHttp)
+    print("final:")
+    print(" Http proxy: ",proxyH_len)
+    print(" Socks5 proxy: ",proxyS_len)
+    print("OVER!")
 
 main()
