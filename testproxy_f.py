@@ -76,7 +76,6 @@ print("error args: {0}".format(args))
 
 '''
 
-
 '''
 用telnet来测试代理是否可连
 import telnetlib
@@ -86,13 +85,7 @@ try:
 except:
     print(connect failed')
 '''
-'''
-#下载代理文件
-def downloadProxylist():
-    r = requests.get('https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list')
-    data = r.text.split("\n")
-    return data
-'''
+
 ipText = ''
 proxys = []
 proxyQueue = queue.Queue()
@@ -183,25 +176,6 @@ def main():
     '''
     #初始化代理数组
     jdatas = json.load(fr)
-    #print(jdatas)
-    #line = fr.readline().strip()
-    '''
-    for line in jdatas:
-        #line = eval(line)
-        if proxy_type == "socks5":
-            proxy_temp = {"http":"socks5://"+line['host']+':'+str(line['port'])}
-        else:
-            proxy_temp = {"http":line['host']+':'+ str(line['port'])}
-
-        if proxy_temp not in proxys: #去除重复的proxy
-            proxys.append(proxy_temp)
-        line = fr.readline()
-
-    fr.close()
-    print(proxys)
-    print (len(proxys),'proxies in proxylist')
-    print ()
-    '''
     jdatas_len = len(jdatas)
     for i in range(0,jdatas_len):
         if jdatas[i]['country']!='CN':
@@ -255,35 +229,6 @@ def main():
         fo = open('ip_socks5.json','w')
         json.dump(proxyOutSocks,fo)
         fo.close()
-        
-        
-##        if proxy_type == 'socks5':
-##            #f = open('ip_f_socks5.json','w') #改成你要存储的位置
-##            f1 = open('ip_f_socks5.txt','w')
-##        else:
-##            #f = open('ip_f.json','w')
-##            f1 = open('ip_f.txt','w')
-##        #f.write('[')
-##        for i in range(0,proxyH_len-1):
-##            if proxyOut[i]:
-##                #f.write(str(proxyOut[i]))
-##                #f.write(',\n')
-##                f1.write(proxyOut[i]['host']+':'+str(proxyOut[i]['port'])+'\n')
-##        #f.write(str(proxyOut[proxy_len-1]))
-##        #f.write(']')
-##        f1.write(proxyOut[i]['host']+':'+str(proxyOut[i]['port']))
-##
-##        #for i in range(0,len(proxyOut)):
-##        #    f.write(proxyOut[i])
-##        #f.write('proxy = [\r\n'+ipText+']')
-##        #f.close()
-##        f1.close()
-##        if proxy_type == 'socks5':
-##            fo = open('ip_f_socks5.json','w') #改成你要存储的位置
-##        else:
-##            fo = open('ip_f.json','w')
-##        json.dump(proxyOut,fo)
-##        fo.close()
 
     print(proxyOutHttp)
     print("final:")
@@ -291,4 +236,5 @@ def main():
     print(" Socks5 proxy: ",proxyS_len)
     print("OVER!")
 
-main()
+if __name__ == '__main__':
+    main()
