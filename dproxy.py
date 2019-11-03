@@ -8,11 +8,40 @@ import geoip2.database
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'}
 
+#
+def converttxt_js(lines,proxyType):
+    geoipReader = geoip2.database.Reader('GeoLite2-City.mmdb')
+    data = []
+
+    if proxyType == 'socks5':
+        for item in lines:
+            c = item.strip().split(':')
+            if len(c[0]) < 5:
+                continue
+            str3 = {}
+            str3['type'] = 'socks5'
+            str3['host'] = c[0]
+            str3['port'] = c[1]
+            str3['country'] = geoipReader.city(c[0]).country.iso_code
+            data.append(str3)
+    else:
+        for item in lines:
+            c = item.strip().split(':')
+            if len(c[0]) < 5:
+                continue
+            str3 = {}
+            str3['type'] = 'http'
+            str3['host'] = c[0]
+            str3['port'] = c[1]
+            str3['country'] = geoipReader.city(c[0]).country.iso_code
+            data.append(str3)
+    return data
+
 #下载代理文件
 def downloadProxylist():
     try:
         print('downloading socks5 proxylist...')
-        r1 = requests.get('https://raw.githubusercontent.com/hookzof/socks5_list/master/proxy.txt')
+        r1 = requests.get('https://raw.githubusercontent.com/hookzof/socks5_list/master/proxy.txt',headers = headers,timeout = 15)
         b = r1.text.split()
         f = open('dproxylist_socks5.txt','w')
         for line in range(0,len(b)-1):
@@ -34,8 +63,8 @@ def downloadProxylist():
         f.close()
         '''
         outlist = []
-        str1 = {}
         for line in range(0,len(b)-1):
+            str1 = {}
             c = b[line].split(':')
             str1['type'] = 'socks5'
             str1['host'] = c[0]
@@ -44,7 +73,8 @@ def downloadProxylist():
                 str1['country'] = geoipReader.city(c[0]).country.iso_code
             except Exception as e:
                 str1['country'] = 'null'
-            outlist.append(eval(str(str1)))  #why ? eval(str(str1)),if append(str1) outlist all data would be last record .
+            #outlist.append(eval(str(str1)))  #why ? eval(str(str1)),if append(str1) outlist all data would be last record .
+            outlist.append(str1)
             #print(str1)
         #print(outlist)
         f = open('dproxylist_socks5.json','w')
@@ -54,27 +84,48 @@ def downloadProxylist():
         print('download error')
 
     #download HTTP from proxyscrape.com
-    r2 = requests.get('https://api.proxyscrape.com/?request=getproxies&proxytype=http&timeout=1500&country=all&ssl=all&anonymity=all')
+    r2 = requests.get('https://api.proxyscrape.com/?request=getproxies&proxytype=http&timeout=1500&country=all&ssl=all&anonymity=all',headers = headers,timeout = 15)
     f = open('proxyscrapeHttp.txt','w')
     f.write(r2.text)
     f.close()
+    fr = open('proxyscrapeHttp.txt','r')
+    lines = fr.readlines()
+    fr.close()
+    datas = converttxt_js(lines,'http')
+    f = open('proxyscrapeHttp.json','w')
+    json.dump(datas,f)
+    f.close()
 
     #download socks5 from proxyscrape.com
-    r3 = requests.get('https://api.proxyscrape.com/?request=getproxies&proxytype=socks5&timeout=2000&country=all')
+    r3 = requests.get('https://api.proxyscrape.com/?request=getproxies&proxytype=socks5&timeout=2000&country=all',headers = headers,timeout = 15)
     f = open('proxyscrapeSocks5.txt','w')
     f.write(r3.text)
     f.close()
+    fr = open('proxyscrapeSocks5.txt','r')
+    lines = fr.readlines()
+    fr.close()
+    datas = converttxt_js(lines,'socks5')
+    f = open('proxyscrapeSocks5.json','w')
+    json.dump(datas,f)
+    f.close()
 
     #download from proxy-list.download
-    r4 = requests.get('https://www.proxy-list.download/api/V1/get?type=http&anon=elite')
+    r4 = requests.get('https://www.proxy-list.download/api/V1/get?type=http&anon=elite',headers = headers,timeout = 15)
     f = open('proxylistHttp.txt','w')
     f.write(r4.text)
+    f.close()
+    fr = open('proxylistHttp.txt','r')
+    lines = fr.readlines()
+    fr.close()
+    datas = converttxt_js(lines,'http')
+    f = open('proxylistHttp.json','w')
+    json.dump(datas,f)
     f.close()
 
 
     try:
         print('downloading http proxylist...')
-        r = requests.get('https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list')
+        r = requests.get('https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list',headers = headers,timeout = 15)
         f = open('dproxylist.txt','w')
         f.write(r.text)
         f.close()
@@ -125,28 +176,7 @@ def downloadProxylist():
 
     return 
 
-#验证
-'''
-def testIP(proxyQueue):
-    while True:
-        try:
-            proxy = proxyQueue.get_nowait()
-            j = proxyQueue.qsize()
-        except Exception as e:
-            break
 
-        try:
-            proxy1 = {"http":proxy['host'] + ':' + str(proxy['port'])}
-            r = requests.get(testurl, headers = headers, proxies = proxy1, timeout = 10)
-            print(proxy['host'] + ':' + proxy['port'] + ' - ' + str(r.status_code) + "\r\n")
-
-            if r.status_code == 200:
-                global proxyOut
-                proxyOut.append(proxy)
-        except Exception as e:
-            print(proxy['host']+':'+str(proxy['port']) + ' - error' + "\r\n")
-            #print(proxy['http'] , e , "\r\n")
-'''
 threadNum = 300
 #主程序
 def main():
@@ -154,4 +184,5 @@ def main():
     #开始下载代理文件
     data = downloadProxylist()
 
-main()
+if __name__ == '__main__':
+    main()
