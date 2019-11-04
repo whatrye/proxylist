@@ -122,6 +122,19 @@ def downloadProxylist():
     json.dump(datas,f)
     f.close()
 
+    r4 = requests.get('https://www.proxy-list.download/api/V1/get?type=socks5&anon=elite',headers = headers,timeout = 15)
+    f = open('proxylistSocks5.txt','w')
+    f.write(r4.text)
+    f.close()
+    fr = open('proxylistSocks5.txt','r')
+    lines = fr.readlines()
+    fr.close()
+    datas = converttxt_js(lines,'socks5')
+    f = open('proxylistSocks5.json','w')
+    json.dump(datas,f)
+    f.close()
+
+
 
     try:
         print('downloading http proxylist...')
