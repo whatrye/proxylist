@@ -92,7 +92,7 @@ proxyQueue = queue.Queue()
 proxyOutHttp = []
 proxyOutSocks = []
 proxy_type = 'http'
-testurl = 'http://kali.org/'
+testurl = 'https://kali.org/'
 threadNum = 200
 
 #验证
@@ -107,12 +107,10 @@ def testIP(proxyQueue):
         except Exception as e:
             break
         if proxy['type'] == "socks5":
-            proxy1 = {"http":"socks5://"+proxy['host']+':'+str(proxy['port'])}
+            proxy1 = {"http":"socks5://"+proxy['host']+':'+str(proxy['port']),"https":"socks5://"+proxy['host']+':'+str(proxy['port'])}
         else:
-            proxy1 = {"http":proxy['host']+':'+ str(proxy['port'])}
+            proxy1 = {"http":proxy['host']+':'+ str(proxy['port']),"https":proxy['host']+':'+ str(proxy['port'])}
         try:
-            #socks5代理
-            #requests.get('http://www.aaa.com/',proxies = {'http':'socks5://xxx.xxx.xxx.xxx:ppp', 'https':'socks5://xxx.xxx.xxx.xxx:ppp'}, timeout = 10)
             r = requests.get(testurl, headers = headers, proxies = proxy1, timeout = 10)
             print(proxy['host'] + ':'+str(proxy['port']) + ' - ' + str(r.status_code) + "\n")
 
@@ -148,7 +146,7 @@ def main():
     parser.add_argument('-t','--type',choices=['h','s5'],default='h',dest='proxy_type',help='proxy type: h-http,s-socks5.')
     parser.add_argument('-i','--inputfile',default='dproxylist.json',dest='inputfile',help='json inputfile name.')
     parser.add_argument('-o','--outputfile',default='ip_f.json',dest='outputfile',help='json outputfile name.')
-    parser.add_argument('-u','--url',default='http://kali.org/',dest='testurl',help='test url.')
+    parser.add_argument('-u','--url',default='https://kali.org/',dest='testurl',help='test url.')
     args = parser.parse_args() #解析命令行
 
     testurl = args.testurl
@@ -160,20 +158,7 @@ def main():
     outfilename = args.outputfile
     print(proxy_type,infilename,testurl)
     fr = open(infilename,'r')
-    '''
-    #处理代理文件
-    if len(sys.argv)>1:
-        proxy_type = sys.argv[1]
-    print('proxy type: '+ proxy_type)
-    if len(sys.argv)>2:
-        fname = sys.argv[2]
-        fr = open(fname,'r')
-    else:
-        if proxy_type == 'socks5':
-            fr = open('dproxylist_socks5.json','r')
-        else:
-            fr = open('dproxylist.json','r',encoding='utf-8')
-    '''
+
     #初始化代理数组
     jdatas = json.load(fr)
     jdatas_len = len(jdatas)
