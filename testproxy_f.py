@@ -92,7 +92,7 @@ proxyQueue = queue.Queue()
 proxyOutHttp = []
 proxyOutSocks = []
 proxy_type = 'http'
-testurl = 'https://kali.org/'
+testurl = 'https://www.google.com/'
 threadNum = 200
 
 #验证
@@ -146,7 +146,7 @@ def main():
     parser.add_argument('-t','--type',choices=['h','s5'],default='h',dest='proxy_type',help='proxy type: h-http,s-socks5.')
     parser.add_argument('-i','--inputfile',default='dproxylist.json',dest='inputfile',help='json inputfile name.')
     parser.add_argument('-o','--outputfile',default='ip_f.json',dest='outputfile',help='json outputfile name.')
-    parser.add_argument('-u','--url',default='https://kali.org/',dest='testurl',help='test url.')
+    parser.add_argument('-u','--url',default='https://www.google.com/',dest='testurl',help='test url.')
     args = parser.parse_args() #解析命令行
 
     testurl = args.testurl
@@ -194,10 +194,10 @@ def main():
     #输出Http代理
     if proxyH_len > 0:
         f1 = open('ip_http.txt','w')
-        for i in range(0,proxyH_len-1):
+        for i in range(0,proxyH_len-2):
             if proxyOutHttp[i]:
                 f1.write(proxyOutHttp[i]['host']+':'+str(proxyOutHttp[i]['port'])+'\n')
-        f1.write(proxyOutHttp[i]['host']+':'+str(proxyOutHttp[i]['port']))
+        f1.write(proxyOutHttp[i+1]['host']+':'+str(proxyOutHttp[i+1]['port']))
         f1.close()
         fo = open('ip_Http.json','w')
         json.dump(proxyOutHttp,fo)
@@ -206,10 +206,10 @@ def main():
     #输出Socks5代理
     if proxyS_len > 0:
         f1 = open('ip_socks5.txt','w')
-        for i in range(0,proxyS_len-1):
+        for i in range(0,proxyS_len-2):
             if proxyOutSocks[i]:
                 f1.write(proxyOutSocks[i]['host']+':'+str(proxyOutSocks[i]['port'])+'\n')
-        f1.write(proxyOutSocks[i]['host']+':'+str(proxyOutSocks[i]['port']))
+        f1.write(proxyOutSocks[i+1]['host']+':'+str(proxyOutSocks[i+1]['port']))
         f1.close()
         fo = open('ip_socks5.json','w')
         json.dump(proxyOutSocks,fo)
