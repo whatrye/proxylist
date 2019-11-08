@@ -44,7 +44,7 @@ def downloadProxylist():
         r1 = requests.get('https://raw.githubusercontent.com/hookzof/socks5_list/master/proxy.txt',headers = headers,timeout = 15)
         b = r1.text.split()
         f = open('dproxylist_socks5.txt','w')
-        for line in range(0,len(b)-1):
+        for line in range(0,len(b)):
             f.write(b[line]+'\n')
         f.close()
 
@@ -63,7 +63,7 @@ def downloadProxylist():
         f.close()
         '''
         outlist = []
-        for line in range(0,len(b)-1):
+        for line in range(0,len(b)):
             str1 = {}
             c = b[line].split(':')
             str1['type'] = 'socks5'
