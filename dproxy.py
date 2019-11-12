@@ -22,7 +22,10 @@ def converttxt_js(lines,proxyType):
             str3['type'] = 'socks5'
             str3['host'] = c[0]
             str3['port'] = c[1]
-            str3['country'] = geoipReader.city(c[0]).country.iso_code
+            try:
+                str3['country'] = geoipReader.city(c[0]).country.iso_code
+            except Exception as e:
+                str3['country'] = 'null'
             data.append(str3)
     else:
         for item in lines:
