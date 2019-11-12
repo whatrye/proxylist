@@ -197,7 +197,7 @@ def main():
         f1 = open('ip_http'+ofname+'.txt','w')
         for i in range(0,proxyH_len):
             if proxyOutHttp[i]:
-                f1.write(proxyOutHttp[i]['host']+':'+str(proxyOutHttp[i]['port'])+'\n')
+                f1.write(proxyOutHttp[i]['host']+':'+str(proxyOutHttp[i]['port'])+' '+proxyOutHttp[i]['country']+'\n')
         #f1.write(proxyOutHttp[i+1]['host']+':'+str(proxyOutHttp[i+1]['port']))
         f1.close()
         fo = open('ip_Http'+ofname+'.json','w')
@@ -210,7 +210,7 @@ def main():
         f1 = open('ip_socks5'+ofname+'.txt','w')
         for i in range(0,proxyS_len):
             if proxyOutSocks[i]:
-                f1.write(proxyOutSocks[i]['host']+':'+str(proxyOutSocks[i]['port'])+'\n')
+                f1.write(proxyOutSocks[i]['host']+':'+str(proxyOutSocks[i]['port'])+' '+proxyOutSocks[i]['country']+'\n')
         #f1.write(proxyOutSocks[i+1]['host']+':'+str(proxyOutSocks[i+1]['port']))
         f1.close()
         fo = open('ip_socks5'+ofname+'.json','w')
