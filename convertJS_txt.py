@@ -12,7 +12,7 @@ def convertJS_txt(infile):
     fr.close()
     f = open('bbb.txt','w')
     for item in jsdata:
-        f.write(item['host']+':'+str(item['port'])+'\n')
+        f.write(item['host'] + ':' + str(item['port']) + ' ' + item['country'] + '\n')
     f.close()
 
 if __name__ == '__main__':

@@ -25,7 +25,7 @@ def converttxt_js(lines,proxyType):
             try:
                 str3['country'] = geoipReader.city(c[0]).country.iso_code
             except Exception as e:
-                str3['country'] = 'null'
+                str3['country'] = 'unknow'
             data.append(str3)
     else:
         for item in lines:
@@ -39,7 +39,7 @@ def converttxt_js(lines,proxyType):
             try:
                 str3['country'] = geoipReader.city(c[0]).country.iso_code
             except Exception as e:
-                str3['country'] = 'null'
+                str3['country'] = 'unknow'
             data.append(str3)
     return data
 
@@ -78,7 +78,7 @@ def downloadProxylist():
             try:
                 str1['country'] = geoipReader.city(c[0]).country.iso_code
             except Exception as e:
-                str1['country'] = 'null'
+                str1['country'] = 'unknow'
             #outlist.append(eval(str(str1)))  #why ? eval(str(str1)),if append(str1) outlist all data would be last record .
             outlist.append(str1)
             #print(str1)
@@ -183,11 +183,8 @@ def downloadProxylist():
         '''
 
         outlist = []
-        null = 'null'
         for item in data:
             a = eval(item)
-            #if a['country'] == null:
-            #    a['country'] = geoipReader.city(a['host']).country.iso_code
             del a['from']
             outlist.append(a)
         f = open('dproxylist.json','w')
