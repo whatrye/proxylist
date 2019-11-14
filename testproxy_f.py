@@ -189,43 +189,40 @@ def main():
     #proxyOut.sort()
     proxyOutHttp = list(filter(None,proxyOutHttp))
     proxyOutSocks = list(filter(None,proxyOutSocks))
-    proxyH_len = len(proxyOutHttp)
-    proxyS_len = len(proxyOutSocks)
+    xproxyOutHttp = sorted(proxyOutHttp, key = lambda proxyOutHttp : proxyOutHttp['host'])
+    xproxyOutSocks = sorted(proxyOutSocks, key = lambda proxyOutSocks : proxyOutSocks['host'])
+ 
+    proxyH_len = len(xproxyOutHttp)
+    proxyS_len = len(xproxyOutSocks)
     print(proxyH_len)
     #输出Http代理
     if proxyH_len > 0:
         ofname = time.strftime('%Y-%m-%d-%H-%M-%S',time.localtime(time.time()))
         fo = open('ip_Http'+ofname+'.json','w')
-        json.dump(proxyOutHttp,fo)
+        json.dump(xproxyOutHttp,fo)
         fo.close()
         f1 = open('ip_http'+ofname+'.txt','w')
         for i in range(0,proxyH_len):
-            if proxyOutHttp[i]:
-                f1.write(proxyOutHttp[i]['host']+':'+str(proxyOutHttp[i]['port'])+' '+proxyOutHttp[i]['country']+'\n')
+            if xproxyOutHttp[i]:
+                f1.write(xproxyOutHttp[i]['host']+':'+str(xproxyOutHttp[i]['port'])+' '+xproxyOutHttp[i]['country']+'\n')
         #f1.write(proxyOutHttp[i+1]['host']+':'+str(proxyOutHttp[i+1]['port']))
         f1.close()
-
 
     #输出Socks5代理
     if proxyS_len > 0:
         ofname = time.strftime('%Y-%m-%d-%H-%M-%S',time.localtime(time.time()))
         fo = open('ip_socks5'+ofname+'.json','w')
-        json.dump(proxyOutSocks,fo)
+        json.dump(xproxyOutSocks,fo)
         fo.close()
-        xproxyOutSocks = sorted(proxyOutSocks, key = lambda proxyOutSocks : proxyOutSocks['host'])
         #xproxyOutSocks = sorted(proxyOutSocks, key = operator.itemgetter('host'))
-
-
-
         f1 = open('ip_socks5'+ofname+'.txt','w')
         for i in range(0,proxyS_len):
-            if proxyOutSocks[i]:
-                f1.write(proxyOutSocks[i]['host']+':'+str(proxyOutSocks[i]['port'])+' '+proxyOutSocks[i]['country']+'\n')
+            if xproxyOutSocks[i]:
+                f1.write(xproxyOutSocks[i]['host']+':'+str(xproxyOutSocks[i]['port'])+' '+xproxyOutSocks[i]['country']+'\n')
         #f1.write(proxyOutSocks[i+1]['host']+':'+str(proxyOutSocks[i+1]['port']))
         f1.close()
-        
 
-    print(proxyOutHttp)
+    print(xproxyOutHttp)
     print("final:")
     print(" Http proxy: ",proxyH_len)
     print(" Socks5 proxy: ",proxyS_len)
