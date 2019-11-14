@@ -86,8 +86,8 @@ def downloadProxylist():
         f = open('dproxylist_socks5.json','w')
         json.dump(outlist,f)
         f.close()
-    except:
-        print('download error')
+    except Exception as e:
+        print('download error',e)
 
     #download HTTP from proxyscrape.com
     try:
@@ -103,8 +103,8 @@ def downloadProxylist():
         f = open('proxyscrapeHttp.json','w')
         json.dump(datas,f)
         f.close()
-    except:
-        print('download error')
+    except Exception as e:
+        print('download error',e)
 
     #download socks5 from proxyscrape.com
     try:
@@ -120,8 +120,8 @@ def downloadProxylist():
         f = open('proxyscrapeSocks5.json','w')
         json.dump(datas,f)
         f.close()
-    except:
-        print('download error')
+    except Exception as e:
+        print('download error',e)
 
     #download from proxy-list.download
     try:
@@ -137,8 +137,8 @@ def downloadProxylist():
         f = open('proxylistHttp.json','w')
         json.dump(datas,f)
         f.close()
-    except:
-        print('download error')
+    except Exception as e:
+        print('download error',e)
 
     try:
         print('download from proxy-list, Socks5')
@@ -153,8 +153,8 @@ def downloadProxylist():
         f = open('proxylistSocks5.json','w')
         json.dump(datas,f)
         f.close()
-    except:
-        print('download error')
+    except Exception as e:
+        print('download error',e)
 
 
     try:
@@ -183,6 +183,7 @@ def downloadProxylist():
         '''
 
         outlist = []
+        null = 'unknow'
         for item in data:
             a = eval(item)
             del a['from']
@@ -202,8 +203,8 @@ def downloadProxylist():
         json.dump(data,f,ensure_ascii=False)
         f.close()
         '''
-    except:
-        print('download2 error')
+    except Exception as e:
+        print('download2 error',e)
 
     return 
 
