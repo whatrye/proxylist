@@ -5,6 +5,7 @@ import requests
 import json
 import threading
 import queue,re,sys,time
+#import operator
 
 
 '''
@@ -211,6 +212,11 @@ def main():
         fo = open('ip_socks5'+ofname+'.json','w')
         json.dump(proxyOutSocks,fo)
         fo.close()
+        xproxyOutSocks = sorted(proxyOutSocks, key = lambda proxyOutSocks : proxyOutSocks['host'])
+        #xproxyOutSocks = sorted(proxyOutSocks, key = operator.itemgetter('host'))
+
+
+
         f1 = open('ip_socks5'+ofname+'.txt','w')
         for i in range(0,proxyS_len):
             if proxyOutSocks[i]:

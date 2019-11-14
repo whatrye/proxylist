@@ -12,6 +12,7 @@ headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36
 def converttxt_js(lines,proxyType):
     geoipReader = geoip2.database.Reader('GeoLite2-City.mmdb')
     data = []
+    null = 'unknow'
 
     if proxyType == 'socks5':
         for item in lines:
@@ -45,6 +46,7 @@ def converttxt_js(lines,proxyType):
 
 #下载代理文件
 def downloadProxylist():
+    null = 'unknow'
     try:
         print('downloading socks5 proxylist...')
         r1 = requests.get('https://raw.githubusercontent.com/hookzof/socks5_list/master/proxy.txt',headers = headers,timeout = 15)
@@ -183,7 +185,6 @@ def downloadProxylist():
         '''
 
         outlist = []
-        null = 'unknow'
         for item in data:
             a = eval(item)
             del a['from']
