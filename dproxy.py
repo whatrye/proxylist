@@ -24,7 +24,10 @@ def converttxt_js(lines,proxyType):
             str3['host'] = c[0]
             str3['port'] = c[1]
             try:
-                str3['country'] = geoipReader.city(c[0]).country.iso_code
+                cy = str(geoipReader.city(c[0]).country.iso_code)
+                if cy == 'None':
+                    cy = 'unknow'
+                str3['country'] = cy
             except Exception as e:
                 str3['country'] = 'unknow'
             data.append(str3)
@@ -38,7 +41,10 @@ def converttxt_js(lines,proxyType):
             str3['host'] = c[0]
             str3['port'] = c[1]
             try:
-                str3['country'] = geoipReader.city(c[0]).country.iso_code
+                cy = str(geoipReader.city(c[0]).country.iso_code)
+                if cy == 'None':
+                    cy = 'unknow'
+                str3['country'] = cy
             except Exception as e:
                 str3['country'] = 'unknow'
             data.append(str3)
