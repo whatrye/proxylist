@@ -4,7 +4,7 @@
 import requests
 import json
 import threading
-import queue,re,sys,time
+import queue,re,sys,time,os
 #import operator
 
 
@@ -196,12 +196,15 @@ def main():
     proxyS_len = len(xproxyOutSocks)
     print(proxyH_len)
     #输出Http代理
+    pwd = '.\checked'
+    if not os.path.exists(pwd):
+        os.mkdir(pwd)
     if proxyH_len > 0:
         ofname = time.strftime('%Y-%m-%d-%H-%M-%S',time.localtime(time.time()))
-        fo = open('ip_Http'+ofname+'.json','w')
+        fo = open(pwd+'\\'+'ip_Http'+ofname+'.json','w')
         json.dump(xproxyOutHttp,fo)
         fo.close()
-        f1 = open('ip_http'+ofname+'.txt','w')
+        f1 = open(pwd+'\\'+'ip_http'+ofname+'.txt','w')
         for i in range(0,proxyH_len):
             if xproxyOutHttp[i]:
                 f1.write(xproxyOutHttp[i]['host']+':'+str(xproxyOutHttp[i]['port'])+' '+xproxyOutHttp[i]['country']+'\n')
@@ -211,11 +214,11 @@ def main():
     #输出Socks5代理
     if proxyS_len > 0:
         ofname = time.strftime('%Y-%m-%d-%H-%M-%S',time.localtime(time.time()))
-        fo = open('ip_socks5'+ofname+'.json','w')
+        fo = open(pwd+'\\'+'ip_socks5'+ofname+'.json','w')
         json.dump(xproxyOutSocks,fo)
         fo.close()
         #xproxyOutSocks = sorted(proxyOutSocks, key = operator.itemgetter('host'))
-        f1 = open('ip_socks5'+ofname+'.txt','w')
+        f1 = open(pwd+'\\'+'ip_socks5'+ofname+'.txt','w')
         for i in range(0,proxyS_len):
             if xproxyOutSocks[i]:
                 f1.write(xproxyOutSocks[i]['host']+':'+str(xproxyOutSocks[i]['port'])+' '+xproxyOutSocks[i]['country']+'\n')
