@@ -110,6 +110,7 @@ def downloadProxylist():
     try:
         print('downloading http proxylist...')
         r = requests.get('https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list',headers = headers,timeout = 15)
+        #https://cdn.jsdelivr.net/gh/fate0/proxylist/proxy.list
         f = open('dproxylist.txt','w')
         f.write(r.text)
         f.close()
@@ -132,6 +133,7 @@ def downloadProxylist():
     try:
         print('downloading socks5 proxylist...')
         r1 = requests.get('https://raw.githubusercontent.com/hookzof/socks5_list/master/proxy.txt',headers = headers,timeout = 15)
+        #https://cdn.jsdelivr.com/gh/hookzof/socks5_list/proxy.txt
         b = r1.text.split()
         f = open('dproxylist_socks5.txt','w')
         for line in range(0,len(b)):
