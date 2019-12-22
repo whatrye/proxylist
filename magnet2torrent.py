@@ -1,4 +1,5 @@
 #!python2
+#need python-libtorrent (apt install python-libtorrent)
 import shutil
 import tempfile
 import os.path as pt
