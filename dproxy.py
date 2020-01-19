@@ -7,7 +7,7 @@ import threading
 import geoip2.database
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'}
-
+proxiess = {"http":"127.0.0.1:8118","https":"127.0.0.1:8118"}
 #
 def converttxt_js(lines,proxyType):
     geoipReader = geoip2.database.Reader('GeoLite2-City.mmdb')
@@ -41,7 +41,10 @@ def downloadProxylist():
     #download HTTP from proxyscrape.com
     try:
         print('download from proxyscrape, HTTP')
-        r2 = requests.get('https://api.proxyscrape.com/?request=getproxies&proxytype=http&timeout=1500&country=all&ssl=all&anonymity=all',headers = headers,timeout = 15)
+        r2 = requests.get('https://api.proxyscrape.com/?request=getproxies&proxytype=http&timeout=1500&country=all&ssl=all&anonymity=all',
+                          headers = headers,
+                          proxies = proxiess,
+                          timeout = 15)
         f = open('proxyscrapeHttp.txt','w')
         f.write(r2.text)
         f.close()
@@ -58,7 +61,10 @@ def downloadProxylist():
     #download socks5 from proxyscrape.com
     try:
         print('download from proxyscrape, Socks5')
-        r3 = requests.get('https://api.proxyscrape.com/?request=getproxies&proxytype=socks5&timeout=2000&country=all',headers = headers,timeout = 15)
+        r3 = requests.get('https://api.proxyscrape.com/?request=getproxies&proxytype=socks5&timeout=2000&country=all',
+                          headers = headers,
+                          proxies = proxiess,
+                          timeout = 15)
         f = open('proxyscrapeSocks5.txt','w')
         f.write(r3.text)
         f.close()
@@ -72,10 +78,13 @@ def downloadProxylist():
     except Exception as e:
         print('download error',e)
 
-    #download from proxy-list.download
+    #download http from proxy-list.download
     try:
         print('download from proxy-list, HTTP')
-        r4 = requests.get('https://www.proxy-list.download/api/V1/get?type=http&anon=elite',headers = headers,timeout = 15)
+        r4 = requests.get('https://www.proxy-list.download/api/V1/get?type=http&anon=elite',
+                          headers = headers,
+                          proxies = proxiess,
+                          timeout = 15)
         f = open('proxylistHttp.txt','w')
         f.write(r4.text)
         f.close()
@@ -89,10 +98,13 @@ def downloadProxylist():
     except Exception as e:
         print('download error',e)
         
-    #download from proxy-list.download
+    #download socks5 from proxy-list.download
     try:
         print('download from proxy-list, Socks5')
-        r4 = requests.get('https://www.proxy-list.download/api/V1/get?type=socks5&anon=elite',headers = headers,timeout = 15)
+        r4 = requests.get('https://www.proxy-list.download/api/V1/get?type=socks5&anon=elite',
+                          headers = headers,
+                          proxies = proxiess,
+                          timeout = 15)
         f = open('proxylistSocks5.txt','w')
         f.write(r4.text)
         f.close()
@@ -106,10 +118,13 @@ def downloadProxylist():
     except Exception as e:
         print('download error',e)
 
-    #download from github
+    #download http from github
     try:
         print('downloading http proxylist...')
-        r = requests.get('https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list',headers = headers,timeout = 15)
+        r = requests.get('https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list',
+                         headers = headers,
+                         proxies = proxiess,
+                         timeout = 15)
         #https://cdn.jsdelivr.net/gh/fate0/proxylist/proxy.list
         f = open('dproxylist.txt','w')
         f.write(r.text)
@@ -129,10 +144,13 @@ def downloadProxylist():
     except Exception as e:
         print('download error',e)
 
-    #download from github
+    #download socks5 from github
     try:
         print('downloading socks5 proxylist...')
-        r1 = requests.get('https://raw.githubusercontent.com/hookzof/socks5_list/master/proxy.txt',headers = headers,timeout = 15)
+        r1 = requests.get('https://raw.githubusercontent.com/hookzof/socks5_list/master/proxy.txt',
+                          headers = headers,
+                          proxies = proxiess,
+                          timeout = 15)
         #https://cdn.jsdelivr.com/gh/hookzof/socks5_list/proxy.txt
         b = r1.text.split()
         f = open('dproxylist_socks5.txt','w')
