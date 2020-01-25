@@ -7,7 +7,7 @@ import threading
 import geoip2.database
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'}
-proxiess = {"http":"127.0.0.1:8118","https":"127.0.0.1:8118"}
+proxiess = {}
 #
 def converttxt_js(lines,proxyType):
     geoipReader = geoip2.database.Reader('GeoLite2-City.mmdb')
