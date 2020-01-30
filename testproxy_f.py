@@ -201,10 +201,10 @@ def main():
         os.mkdir(pwd)
     if proxyH_len > 0:
         ofname = time.strftime('%Y-%m-%d-%H-%M-%S',time.localtime(time.time()))
-        fo = open(pwd+'\/'+'ip_Http'+ofname+'.json','w')
+        fo = open(pwd+'/'+'ip_Http'+ofname+'.json','w')
         json.dump(xproxyOutHttp,fo)
         fo.close()
-        f1 = open(pwd+'\/'+'ip_http'+ofname+'.txt','w')
+        f1 = open(pwd+'/'+'ip_http'+ofname+'.txt','w')
         for i in range(0,proxyH_len):
             if xproxyOutHttp[i]:
                 f1.write(xproxyOutHttp[i]['host']+':'+str(xproxyOutHttp[i]['port'])+' '+xproxyOutHttp[i]['country']+'\n')
