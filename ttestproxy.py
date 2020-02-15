@@ -123,7 +123,7 @@ def testIP(proxyQueue,proxytype):
         elif proxytype == "https":
             proxy1 = {"http":"https://" + proxy,"https":"https://" + proxy}
         elif proxytype == "http":
-            proxy1 = {"http":proxy,"https":proxy}
+            proxy1 = {"http":proxy,"https":"https://" + proxy}
         try:
             r = requests.get(testurl, headers = headers, proxies = proxy1, timeout = 10)
             print(proxy + ' - ' + str(r.status_code) + "\n")
