@@ -94,7 +94,8 @@ proxyOutHttp = []
 proxyOutHttps = []
 proxyOutSocks = []
 proxy_type = 'http'
-testurl = 'https://kali.org/'
+testurl = 'https://www.google.com'
+timeout = 15
 threadNum = 200
 
 #去除重复
@@ -109,7 +110,7 @@ def removeDuplicate(data):
 
 #验证
 def testIP(proxyQueue,proxytype):
-    global proxy_type,testurl,proxyOutHttp,proxyOutHttps,proxyOutSocks
+    global proxy_type,testurl,proxyOutHttp,proxyOutHttps,proxyOutSocks,timeout
 
     headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'}
     while True:
@@ -125,7 +126,7 @@ def testIP(proxyQueue,proxytype):
         elif proxytype == "http":
             proxy1 = {"http":proxy,"https":"https://" + proxy}
         try:
-            r = requests.get(testurl, headers = headers, proxies = proxy1, timeout = 10)
+            r = requests.get(testurl, headers = headers, proxies = proxy1, timeout = timeout)
             print(proxy + ' - ' + str(r.status_code) + "\n")
 
             '''#待测试
@@ -143,7 +144,8 @@ def testIP(proxyQueue,proxytype):
             #待测试结束
             '''
 
-            if r.status_code == 200:
+            if "<title>Google" in r.text:
+            #if r.status_code == 200:
                 if proxytype == "socks5":
                     proxyOutSocks.append(proxy)
                 elif proxytype == "http":
