@@ -5,3 +5,8 @@ py3-bencode
 gfwlist2privoxy
 beautifulsoup4
 colorama
+
+wheel
+lxml
+pyquery
+pillow
