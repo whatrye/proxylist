@@ -3,5 +3,5 @@ geoip2
 argparse
 py3-bencode
 gfwlist2privoxy
-bs4
+beautifulsoup4
 colorama

@@ -95,6 +95,9 @@ proxyOutHttps = []
 proxyOutSocks = []
 proxy_type = 'http'
 testurl = 'https://www.google.com'
+testtext = "<title>Google"
+#testurl = "https://kali.org"
+#testtext = "<title>Kali Linux"
 timeout = 15
 threadNum = 200
 
@@ -144,7 +147,7 @@ def testIP(proxyQueue,proxytype):
             #待测试结束
             '''
 
-            if "<title>Google" in r.text:
+            if testtext in r.text:
             #if r.status_code == 200:
                 if proxytype == "socks5":
                     proxyOutSocks.append(proxy)

@@ -8,6 +8,7 @@ import geoip2.database
 import time
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'}
+#proxiess = {"http":"127.0.0.1:4477","https":"127.0.0.1:4477"}
 proxiess = {}
 
 #去除重复
