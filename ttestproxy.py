@@ -94,10 +94,10 @@ proxyOutHttp = []
 proxyOutHttps = []
 proxyOutSocks = []
 proxy_type = 'http'
-testurl = 'https://www.google.com'
-testtext = "<title>Google"
-#testurl = "https://kali.org"
-#testtext = "<title>Kali Linux"
+#testurl = 'https://www.google.com'
+#testtext = "<title>Google"
+testurl = "https://kali.org"
+testtext = "<title>Kali Linux"
 timeout = 15
 threadNum = 200
 

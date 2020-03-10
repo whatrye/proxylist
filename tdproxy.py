@@ -19,7 +19,7 @@ def removeDuplicate(data):
         if item not in data2:
             data2.append(item)
     data1 = sorted(data2)
-    return data
+    return data1
 
 #将txt转换为json
 def converttxt_js(lines,proxyType):
