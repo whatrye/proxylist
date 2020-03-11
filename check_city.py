@@ -8,8 +8,7 @@ def check_city(data):
             cy = str(geoipReader.city(c[0]).country.iso_code)
             if cy == 'None':
                 cy = 'unknow'
-                item[1] = cy
         except Exception as e:
-            item[1] = 'unknow'
-        checked_data.append(item)
+            cy = 'unknow'
+        checked_data.append(item + ' ' + cy)
     return checked_data
