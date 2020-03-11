@@ -6,6 +6,7 @@ import json
 import threading
 import queue,re,sys,time,os
 #import operator
+from check_city import check_city
 
 
 '''
@@ -214,6 +215,9 @@ def main():
     proxyOutHttp = list(filter(None,proxyOutHttp))
     proxyOutHttps = list(filter(None,proxyOutHttps))
     proxyOutSocks = list(filter(None,proxyOutSocks))
+    check_ctHttp = check_city(proxyOutHttp)
+    check_ctHttps = check_city(proxyOutHttps)
+    check_ctSocks = check_city(proxyOutSocks)
     xproxyOutHttp = sorted(proxyOutHttp)
     xproxyOutHttps = sorted(proxyOutHttps)
     xproxyOutSocks = sorted(proxyOutSocks)
@@ -233,7 +237,7 @@ def main():
         f1 = open(pwd+'/'+'ip_http'+ofname+'.txt','w')
         for i in range(0,proxyH_len):
             if xproxyOutHttp[i]:
-                f1.write(xproxyOutHttp[i]+'\n')
+                f1.write(xproxyOutHttp[i][0]+ ' ' + xproxyOutHttp[i][1] + '\n')
         f1.close()
         print(xproxyOutHttp)
     
@@ -243,7 +247,7 @@ def main():
         f1 = open(pwd+'/'+'ip_https'+ofname+'.txt','w')
         for i in range(0,proxyHs_len):
             if xproxyOutHttps[i]:
-                f1.write(xproxyOutHttps[i]+'\n')
+                f1.write(xproxyOutHttps[i][0] + ' ' +xproxyOutHttps[i][1] + '\n')
         f1.close()
         print(xproxyOutHttps)
 
@@ -254,7 +258,7 @@ def main():
         f1 = open(pwd+'/'+'ip_socks5'+ofname+'.txt','w')
         for i in range(0,proxyS5_len):
             if xproxyOutSocks[i]:
-                f1.write(xproxyOutSocks[i]+'\n')
+                f1.write(xproxyOutSocks[i][0] + ' ' + xproxyOutSocks[i][1] + '\n')
         f1.close()
         print(xproxyOutSocks)
 
