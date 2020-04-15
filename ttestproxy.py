@@ -102,6 +102,14 @@ testtext = "<title>Kali Linux"
 timeout = 15
 threadNum = 200
 
+#Remove CN proxies
+def remove_cn(data):
+    data1 = []
+    for item in data:
+        if 'CN' not in item:
+            data1.append(item)
+    return data1
+
 #去除重复
 def removeDuplicate(data):
     data2 = []
@@ -185,10 +193,12 @@ def main():
     #初始化代理数组
     lines = fr.readlines()
     fr.close()
-    lines = list(filter(None,lines))
-    for item in lines:
+#    lines = list(filter(None,lines))
+    lines = list(set(lines))
+    linesc = check_city(lines)
+    for item in linesc:
         c = item.strip().split(" ")
-        if len(c[0]) < 5:
+        if len(c[0]) < 5 or c[1] == 'CN':
             continue
         #elif c[1] != 'CN':
         proxyQueue.put(c[0])
@@ -212,9 +222,9 @@ def main():
     #输出文件json和txt
 
     #proxyOut.sort()
-    proxyOutHttp = list(filter(None,proxyOutHttp))
-    proxyOutHttps = list(filter(None,proxyOutHttps))
-    proxyOutSocks = list(filter(None,proxyOutSocks))
+#    proxyOutHttp = list(filter(None,proxyOutHttp))
+#    proxyOutHttps = list(filter(None,proxyOutHttps))
+#    proxyOutSocks = list(filter(None,proxyOutSocks))
     check_ctHttp = check_city(proxyOutHttp)
     check_ctHttps = check_city(proxyOutHttps)
     check_ctSocks = check_city(proxyOutSocks)
@@ -241,7 +251,7 @@ def main():
         f1.close()
         print(xproxyOutHttp)
     
-    #输出Http代理
+    #输出Https代理
     if proxyHs_len > 0:
         ofname = time.strftime('%Y-%m-%d-%H-%M-%S',time.localtime(time.time()))
         f1 = open(pwd+'/'+'ip_https'+ofname+'.txt','w')
