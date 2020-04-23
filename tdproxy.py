@@ -6,12 +6,22 @@ import json
 import threading
 import geoip2.database
 import time,sys
+import os,glob
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'}
 pp = "https://127.0.0.1:4477"
 #proxiess = {"http":pp,"https":pp}
 proxiess = {}
 timeouts = 15
+
+#删除前次下载
+def remove_pre():
+    files = glob.glob('./'+'h*.txt')
+    for file in files:
+        os.remove(file)
+    files = glob.glob('./'+'s*.txt')
+    for file in files:
+        os.remove(file)
 
 #去除重复
 def removeDuplicate(data):
@@ -261,6 +271,8 @@ def main():
         proxiess = {"http":pp,"https":pp}
     else:
         proxiess = {}
+        
+    remove_pre()
     #开始下载代理文件
     data = downloadProxylist()
 
