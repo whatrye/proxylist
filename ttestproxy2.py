@@ -180,9 +180,9 @@ def testIP2(proxyIP,proxytype):
 ##            break
     
     if proxytype == "socks5":
-        proxy1 = {"http":"socks5://" + proxyIP,"https":"socks5://" + proxy}
+        proxy1 = {"http":"socks5://" + proxyIP,"https":"socks5://" + proxyIP}
     elif proxytype == "https":
-        proxy1 = {"http":"https://" + proxyIP,"https":"https://" + proxy}
+        proxy1 = {"http":"https://" + proxyIP,"https":"https://" + proxyIP}
     elif proxytype == "http":
         proxy1 = {"http":proxyIP,"https":"https://" + proxyIP}
     try:
