@@ -12,7 +12,7 @@ headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36
 pp = "https://127.0.0.1:4477"
 #proxiess = {"http":pp,"https":pp}
 proxiess = {}
-timeouts = 15
+timeouts = 30
 
 #删除前次下载
 def remove_pre():
