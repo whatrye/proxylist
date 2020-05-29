@@ -1,3 +1,4 @@
 *.txt
 *.json
 *.mmdb
+__pycache__/

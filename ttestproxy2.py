@@ -6,6 +6,7 @@ import json
 import threading
 import queue,re,sys,time,os
 #import operator
+from concurrent.futures import ThreadPoolExecutor
 from check_city import check_city
 
 
@@ -167,6 +168,54 @@ def testIP(proxyQueue,proxytype):
         except Exception as e:
             print(proxy + ' - error' + "\r\n")
 
+def testIP2(proxyIP,proxytype):
+    global proxy_type,testurl,proxyOutHttp,proxyOutHttps,proxyOutSocks,timeout
+
+    headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'}
+##    while True:
+##        try:
+##            proxy = proxyQueue.get_nowait()
+##            j = proxyQueue.qsize()
+##        except Exception as e:
+##            break
+    
+    if proxytype == "socks5":
+        proxy1 = {"http":"socks5://" + proxyIP,"https":"socks5://" + proxy}
+    elif proxytype == "https":
+        proxy1 = {"http":"https://" + proxyIP,"https":"https://" + proxy}
+    elif proxytype == "http":
+        proxy1 = {"http":proxyIP,"https":"https://" + proxyIP}
+    try:
+        r = requests.get(testurl, headers = headers, proxies = proxy1, timeout = timeout)
+        print(proxyIP + ' - ' + str(r.status_code) + "\n")
+
+        '''#待测试
+        #title = re.search(r'<title>(.*?)</title>',r.text) #查找网页中有没有title字串，或者查找其它特定字串来验证网页是否正确打开
+        print(r.text)
+        title = re.search(r'亚洲',r.text) #查找网页中有没有title字串，或者查找其它特定字串来验证网页是否正确打开
+        print(title.group(1))
+        if title:
+            title = title.group(1)
+            print('网页正常')
+        else:
+            print('网页不正常')
+        if title == 'www.aisex.com':
+            print("okkkkkk")
+        #待测试结束
+        '''
+
+        if testtext in r.text:
+        #if r.status_code == 200:
+            if proxytype == "socks5":
+                proxyOutSocks.append(proxyIP)
+            elif proxytype == "http":
+                proxyOutHttp.append(proxyIP)
+            elif proxytype == "https":
+                proxyOutHttps.append(proxyIP)
+    except Exception as e:
+        print(proxyIP + ' - error' + "\r\n")
+
+
 #主程序
 def main():
     global proxy_type,proxyOutHttp,proxyOutHttps,proxyOutSocks
@@ -196,28 +245,34 @@ def main():
 #    lines = list(filter(None,lines))
     lines = list(set(lines))
     linesc = check_city(lines)
+    proxyIPList = []
     for item in linesc:
         c = item.strip().split(" ")
         if len(c[0]) < 5 or c[1] == 'CN':
             continue
         #elif c[1] != 'CN':
-        proxyQueue.put(c[0])
-    jqueue = proxyQueue.qsize()
+        proxyIPList.append(c[0])
+##        proxyQueue.put(c[0])
+##    jqueue = proxyQueue.qsize()
+    jqueue = len(proxyIPList)
     print(jqueue,'/',jqueue,' proxies')
 
     #开始验证
-    threadN = threadNum
-    if jqueue < threadNum:
-        threadN = jqueue
-    print(threadN,' threads')
+##    threadN = threadNum
+##    if jqueue < threadNum:
+##        threadN = jqueue
+##    print(threadN,' threads')
+##
+##    threads=[]
+##    for i in range(0,threadN):
+##        thread=threading.Thread(target=testIP,args=(proxyQueue,proxy_type,))
+##        threads.append(thread)
+##        thread.start()
+##    for thread in threads:
+##        thread.join()
 
-    threads=[]
-    for i in range(0,threadN):
-        thread=threading.Thread(target=testIP,args=(proxyQueue,proxy_type,))
-        threads.append(thread)
-        thread.start()
-    for thread in threads:
-        thread.join()
+    with ThreadPoolExecutor(max_workers=100) as pool:
+        [pool.submit(testIP2,proxyIP,proxy_type) for proxyIP in proxyIPList]
 
     #输出文件json和txt
 
