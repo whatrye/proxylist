@@ -271,8 +271,10 @@ def main():
 ##    for thread in threads:
 ##        thread.join()
 
+    start_time = time.time()
     with ThreadPoolExecutor(max_workers=100) as pool:
         [pool.submit(testIP2,proxyIP,proxy_type) for proxyIP in proxyIPList]
+    end_time = time.time()
 
     #输出文件json和txt
 
@@ -331,7 +333,7 @@ def main():
     print(" Http proxy: ",proxyH_len)
     print(" Https proxy: ",proxyHs_len)
     print(" Socks5 proxy: ",proxyS5_len)
-    print("OVER!")
+    print("OVER!",end_time - start_time)
 
 if __name__ == '__main__':
     main()
