@@ -98,8 +98,10 @@ proxyOutSocks = []
 proxy_type = 'http'
 #testurl = 'https://www.google.com'
 #testtext = "<title>Google"
-testurl = "https://kali.org"
-testtext = "<title>Kali Linux"
+#testurl = "https://kali.org"
+#testtext = "<title>Kali Linux"
+testurl ="https://www.proxy-list.download"
+testtext = "<title>Free Proxy List"
 timeout = 15
 threadNum = 200
 
@@ -227,7 +229,7 @@ def main():
     parser.add_argument('-u','--url',default='https://kali.org/',dest='testurl',help='test url.')
     args = parser.parse_args() #解析命令行
 
-    testurl = args.testurl
+#    testurl = args.testurl
     if args.proxy_type == 'h':
         proxy_type = 'http'
     elif args.proxy_type == 's5':

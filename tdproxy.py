@@ -135,17 +135,21 @@ def downloadProxylist():
     except Exception as e:
         print('download error',e)
 
-    #download http from proxy-list.download
+    #download https from proxy-list.download
+        '''type(required): http https socks4 socks5
+            anon(optional): transparent anonymous elite
+            country(optional): country ISO code
+            '''
     try:
         print('download from proxy-list, HTTP')
-        rUrl4 = 'https://www.proxy-list.download/api/V1/get?type=http&anon=elite'
+        rUrl4 = 'https://www.proxy-list.download/api/V1/get?type=https'
         r4 = requests.get(rUrl4,
                           headers = headers,
                           proxies = proxiess,
                           timeout = timeouts)
         data4 = r4.text.split("\n")
         data4 = list(filter(None,data4))
-        save2txt('http',data4)
+        save2txt('https',data4)
 ##        f = open('proxylistHttp.txt','w')
 ##        f.write(r4.text)
 ##        f.close()
