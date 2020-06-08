@@ -98,10 +98,10 @@ proxyOutSocks = []
 proxy_type = 'http'
 #testurl = 'https://www.google.com'
 #testtext = "<title>Google"
-#testurl = "https://kali.org"
-#testtext = "<title>Kali Linux"
-testurl ="https://www.proxy-list.download"
-testtext = "<title>Free Proxy List"
+testurl = "https://kali.org"
+testtext = "<title>Kali Linux"
+#testurl ="https://www.proxy-list.download"
+#testtext = "<title>Free Proxy List"
 timeout = 15
 threadNum = 200
 
