@@ -188,7 +188,7 @@ def testIP2(proxyIP,proxytype):
     
     testurl = testP[1]['testUrl']
     testtext = testP[1]['testText']
-    print(testurl,testtext,testP[1]['testUrl'])
+#    print(testurl,testtext,testP[1]['testUrl'])
     if proxytype == "socks5":
         proxy1 = {"http":"socks5://" + proxyIP,"https":"socks5://" + proxyIP}
     elif proxytype == "https":
