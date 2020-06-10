@@ -98,11 +98,15 @@ proxyOutSocks = []
 proxy_type = 'http'
 #testurl = 'https://www.google.com'
 #testtext = "<title>Google"
-testurl = "https://kali.org"
-testtext = "<title>Kali Linux"
+#testurl = "https://kali.org"
+#testtext = "<title>Kali Linux"
 #testurl ="https://www.proxy-list.download"
 #testtext = "<title>Free Proxy List"
 timeout = 15
+testP = [{'testUrl':'https://www.google.com','testText':"<title>Google"},
+         {'testUrl':"https://kali.org",'testText':"<title>Kali Linux"},
+         {'testUrl':"https://www.proxy-list.download",'testText':"<title>Free Proxy List"}
+         ]
 threadNum = 200
 
 #Remove CN proxies
@@ -171,7 +175,8 @@ def testIP(proxyQueue,proxytype):
             print(proxy + ' - error' + "\r\n")
 
 def testIP2(proxyIP,proxytype):
-    global proxy_type,testurl,proxyOutHttp,proxyOutHttps,proxyOutSocks,timeout
+    global proxy_type,testP,proxyOutHttp,proxyOutHttps,proxyOutSocks,timeout
+    testID = 0
 
     headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'}
 ##    while True:
@@ -181,6 +186,9 @@ def testIP2(proxyIP,proxytype):
 ##        except Exception as e:
 ##            break
     
+    testurl = testP[1]['testUrl']
+    testtext = testP[1]['testText']
+    print(testurl,testtext,testP[1]['testUrl'])
     if proxytype == "socks5":
         proxy1 = {"http":"socks5://" + proxyIP,"https":"socks5://" + proxyIP}
     elif proxytype == "https":
@@ -238,7 +246,8 @@ def main():
         proxy_type = 'https'
     infilename = args.inputfile
     outfilename = args.outputfile
-    print(proxy_type,infilename,testurl)
+##    print(proxy_type,infilename,testurl)
+    print(proxy_type,infilename)
     fr = open(infilename,'r')
 
     #初始化代理数组
