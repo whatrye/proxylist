@@ -5,6 +5,7 @@ import requests
 import json
 import threading
 import queue,re,sys,time,os
+import random
 #import operator
 from concurrent.futures import ThreadPoolExecutor
 from check_city import check_city
@@ -176,7 +177,7 @@ def testIP(proxyQueue,proxytype):
 
 def testIP2(proxyIP,proxytype):
     global proxy_type,testP,proxyOutHttp,proxyOutHttps,proxyOutSocks,timeout
-    testID = 0
+    testID = {}
 
     headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'}
 ##    while True:
@@ -186,9 +187,10 @@ def testIP2(proxyIP,proxytype):
 ##        except Exception as e:
 ##            break
     
-    testurl = testP[1]['testUrl']
-    testtext = testP[1]['testText']
-#    print(testurl,testtext,testP[1]['testUrl'])
+    testID = random.choice(testP)
+    testurl = testID['testUrl']
+    testtext = testID['testText']
+#    print(testurl,testtext,testID['testUrl'])
     if proxytype == "socks5":
         proxy1 = {"http":"socks5://" + proxyIP,"https":"socks5://" + proxyIP}
     elif proxytype == "https":
